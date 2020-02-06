@@ -66,7 +66,7 @@ class TimeGaps:
             tuples and objects with __dict__ atribute are accepted as
             well. 
             Every item, must content it self the next items:
-                1. A datetime object or a strig format datetime
+                1. A datetime object or a string format datetime
                 2. A item that defines if the datetime object or string
                 that we just mentioned is an inicial or a final time 
                 point of a time interval.
