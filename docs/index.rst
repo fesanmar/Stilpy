@@ -12,6 +12,7 @@ Welcome to Stilpy's documentation!
    contributing
    authors
    history
+   API
 
 Indices and tables
 ==================

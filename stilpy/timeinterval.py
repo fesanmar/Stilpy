@@ -11,21 +11,19 @@ class TimeInterval:
 
     Attributes
     ----------
-    start: datetime object or an empty str
-        The starting point of the time interval. If it's not set, wil
-        return an empty string.
-    end: datetime object or an empty str
-        The ending point of the time interval. If it's not set, will
-        return an empty string.
-        duration: timedelta object or and empty str
-        The duration of the time interval. If one of the limits (start
-        and end) it's not set, will return an empty string.
-    duration: timedelta object or an empty str
-        The duration of the interval, when is it possible to calculate
-        it. Otherwise and empty string will be returned.
-    is_perfect: bool
-        It will return `True` if neither `start` or `end` are empty
-        string. Othewise, `False` will be returned.
+    start : datetime object or an empty str
+        The starting point of the time interval. Default is an empty
+        string.
+    end : datetime object or an empty str
+        The ending point of the time interval. Default is an empty
+        string.
+    duration : timedelta object or and empty str
+        The duration of the time interval. If one of the limits
+        (``start`` or ``end``) it's not set, the ``duration`` property
+        will return an empty string.
+    is_perfect : bool
+        It will return ``False`` if neither ``start`` or ``end`` are empty
+        strings. Othewise, ``True`` will be returned.
     """
     _EMPTY = ''
     _STR_DATETIME_ERRROR = '''
@@ -48,26 +46,38 @@ class TimeInterval:
 
         Parameters
         ----------
-        start: datetime object or str
-            A datetime object representing the lower limit of te time
-            interval. Default is an empty str.
-            It accepts str formatted like:
-            * 'dd-mm-yyyy HH:MM:SS'
-            * 'yyyy-mm-dd HH:MM:SS'
+        start : datetime object or str
+            A datetime object representing the lower limit of the time
+            interval. Default is an empty string.
+            It accepts string formatted datetime like:
+
+                * 'dd-mm-yyyy HH:MM:SS'
+                * 'yyyy-mm-dd HH:MM:SS'
+
             Your can use dots, dashes and slashes as separators between
-            the date element and colons for the time part.
+            the date elements and colons for the time elements.
             Hours goes from 00 to 23, minutes and seconds from 00 to 59.
-        end: datetime object or str
-            Pretty much like `start` parameter.
-        **kwargs: Any
-            Any argument that must be an attribute of the TimeInterval.
-            For example, a name, age.
+        end : datetime object or str
+            A datetime object representing the upper limit of the time
+            interval. Default is an empty string.
+            It accepts string formatted datetime like:
+
+                * 'dd-mm-yyyy HH:MM:SS'
+                * 'yyyy-mm-dd HH:MM:SS'
+
+            Your can use dots, dashes and slashes as separators between
+            the date elements and colons for the time elements.
+            Hours goes from 00 to 23, minutes and seconds from 00 to 59.
+        **kwargs : Any
+            Any argument that must be an attribute of the 
+            ``TimeInterval`` object. For example, a name, an age...
 
         Raises
         ------
         ValueError
-            if your start and end isn't either a datetime object, a
-            valid formatted datetime string o an empty string.
+            if the ``start`` or ``end`` argument passed to the constructor
+            is not a datetime object, a valid formatted datetime or an empty
+            string.
         """
         self.start = start
         self.end = end
@@ -76,12 +86,12 @@ class TimeInterval:
         
     @property
     def start(self) -> datetime:
-        """Returns the `start` property"""
+        """Returns the ``start`` property"""
         return self._start
 
     @start.setter
     def start(self, n_start: Union[datetime, str]) -> None:
-        """Sets the `start` property to the n_start value."""
+        """Sets the ``start`` property to the n_start value."""
         if self._validate_datetime(n_start):
             pass
         elif self._validate_str(n_start):
@@ -95,12 +105,12 @@ class TimeInterval:
 
     @property
     def end(self) -> datetime:
-        """Returns the `end` property."""
+        """Returns the ``end`` property."""
         return self._end
 
     @end.setter
     def end(self, n_end: Union[datetime, str]) -> None:
-        """Sets the `end` property to the `n_end` value."""
+        """Sets the ``end`` property to the ``n_end`` value."""
         if self._validate_datetime(n_end):
             pass
         elif self._validate_str(n_end):
@@ -119,7 +129,7 @@ class TimeInterval:
 
     @property
     def duration(self) -> Union[timedelta, str]:
-        """Returns the duration property."""
+        """Returns the ``duration`` property."""
         try:
             return self.end - self.start
         except Exception:
@@ -127,7 +137,7 @@ class TimeInterval:
 
     @property
     def is_perfect(self) -> bool:
-        """Returns True if the interval hasn't an empty start or end.
+        """Returns ``True`` if the interval hasn't an empty ``start`` or ``end``.
         """
         if TimeInterval._EMPTY not in (self.start, self.end):
             return True
@@ -174,16 +184,14 @@ class TimeInterval:
 
     @staticmethod
     def str_to_datetime(n_datetime: str) -> Union[datetime, str]:
-        """Tries to cast short string dates to date objet.
+        """Tries to cast short string dates to ``date`` objet.
         
         Parameters
         ----------
         n_datetime: str
-                A string format datetime with dashes between the
-                date elments and colons between the time elments.
-                Date part accepts two formats: 'yyyy-mm-dd' and 
-                'dd-mm-yyyy'. You can use 3 different separators:
-                '-', '/' and '.'.
+                A string format datetime. Date part accepts two 
+                formats: 'yyyy-mm-dd' and 'dd-mm-yyyy'. You can use 3
+                different separators: ``'-'``, ``'/'`` and ``'.'``.
                 Time part only accepts one format: HH:MM:SS, using
                 colons as separators. Hours goes from 00 to 23, minutes
                 and seconds from 00 to 59.
@@ -191,8 +199,16 @@ class TimeInterval:
         Returns
         -------
         datetime
-              A datetime object or if n_datetime is an empty str, it
-              will return a emtpy tr as well.
+              ``datetime`` object if ``n_datetime`` is a valid datetime
+              formatted string.
+        str
+              if ``n_datetime`` is an empty string.
+        
+        Raises
+        ------
+        ValueError
+            if the ``n_datetime`` argument passed to function is not a 
+            valid formatted datetime or an empty string.
         """
         # Test if the str is empy
         if n_datetime == TimeInterval._EMPTY:

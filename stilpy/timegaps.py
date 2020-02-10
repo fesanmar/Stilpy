@@ -13,35 +13,26 @@ class TimeGaps:
 
     Class representing a collection for time interval objects.
 
-    It's an iterator of TimeInterval objects.
+    It's an iterator of `TimeInterval Objects`_.
 
     Attributes
     ----------
-    grouper_tags: List of dicts
+    grouper_tags : List of dicts
         A list containig a collection of dictionarys with the keys
-        passed as `grouped_by` parameter and the values finded in
-        the `iterable` that makes the different groups.
-    grouped_intervals: List of TimeGaps iterators
-        Returns time intervals separated by groups. For every group  a
-        TimeGaps iterator is made an stored in a list. The groups are 
-        created using the `group_by` argument parameter passed in the
-        instance.
-    
-    Methods
-    -------
-    total_duration(default)
-        Returns the total duration of the TimeIntervals iterator. If
-        any TimeInterval object is imperfect (`start` or `end` atributte
-        is empty `''`), the `default` value passed to the method will
-        be returned instead.
-
+        passed as ``grouped_by`` parameter and the values finded in
+        the ``iterable`` that makes the different groups.
+    grouped_intervals : List of TimeGaps iterators
+        Returns time intervals separated by groups. For every group a
+        ``TimeGaps`` iterator is made an stored in a ``list``. The groups are 
+        created using the ``group_by`` argument passed in the instance.
+        
     Raises
     ------
     StopIteration
-        Raised when the __next__() method is called but there are no
+        Raised when the ``__next__()`` method is called but there are no
         more records to read.
     AttributeError
-        Raised when `grouper_tags` or `grouped_intervals` attribute is
+        Raised when ``grouper_tags`` or ``grouped_intervals`` attribute is
         reasigned.
     """
     ERROR_ITERABLE = "it's not a supported iterable."
@@ -60,53 +51,56 @@ class TimeGaps:
 
         Parameters
         ----------
-        iterable: iterable of iterables
-            An iterable object that contains a list of items.
-            Those items must be dicts or dictlike objects. Lists,
-            tuples and objects with __dict__ atribute are accepted as
+        iterable : iterable of iterables
+            An iterable object that contains a ``list`` of items.
+            Those items must be ``dicts`` or dictlike objects. Lists,
+            tuples and objects with ``__dict__`` atribute are accepted as
             well. 
-            Every item, must content it self the next items:
-                1. A datetime object or a string format datetime
-                2. A item that defines if the datetime object or string
-                that we just mentioned is an inicial or a final time 
-                point of a time interval.
-        tag_loc: str or int
-            Where to find the tag that contains the value that
-            represents wich part of the interval defines each element.
-        i_tag: Any
+            Every item, must content the next items inside:
+
+                1. A ``datetime`` object or a string format datetime
+                2. A item that defines if the ``datetime`` object or string
+                   that we just mentioned is an initial or a final time 
+                   point of a time interval.
+        tag_loc : str or int
+            Where to find the tag that contains the value representing
+            wich part of the interval defines each element. In a ``list``
+            or a ``tuple`` can be an index. In a ``dict`` can be a key
+            that reference the value.
+        i_tag : Any
             The name of the initial time tag in the iterable. It's 
             needed to know if a specific element of the iterable is an
-            initial time value. Default is 'start'.
-        f_tag: Any
+            initial time value. Default is ``'start'``.
+        f_tag : Any
             The name of the final time tag in the iterable. It's needed
             to know if a specific element of the iterable is a final
-            time value. Default is 'end'.
-        dt_loc: str or int
+            time value. Default is ``'end'``.
+        dt_loc : str or int
             The location, inside each element of the iterable, of the
             datetime information.
-        args: str, optional
-            Any argument that must be an attribute of the TimeInterval.
-            For example, a name, age. This parameter expects the key,
-            or the attribute, depending on the `iterable` that is 
-            passed as first argument. Cannot be a int, or a TypeError
+        args : str, optional
+            Any argument that will be an attribute of the TimeInterval.
+            For example, a name, an age... This parameter expects the key,
+            or the attribute, depending on the ``iterable`` that is 
+            passed as first argument. Cannot be a ``int``, or a ``TypeError``
             will be raised.
-        group_by: Any, optional
+        group_by : Any, optional
             The tags that you want to use for making the correct pairs
-            between the diferent records of your `iterable`. If is None
-            it will make the intervals pairs considering only the
-            `i_tag` and the `f_tag`.
-            You can pass a list, tuple or a single value. But every tag
-            you pass must be conteined in the `iterables` inide the
-            main iterable.
+            between the diferent records of your ``iterable``. If it is 
+            ``None``, the intervals will be made considering only the
+            ``i_tag`` and the ``f_tag``.
+            You can pass a ``list``, ``tuple`` or a single value. But every
+            tag you pass must be contained in the iterables inside the
+            main ``iterable``.
 
         Raises
         ------
         ValueError
-            If the iterables inside the main iterable are not supported
-            a `ValueError` will be raised.
+            If the iterables inside the main ``iterable`` are not supported
+            a ``ValueError`` will be raised.
         TypeError:
-            When int types are passed to the `args` parameter as
-            additional attributes for `TimeInterval`.
+            When ``int`` types are passed to the ``args`` parameter as
+            additional attributes for ``TimeInterval``.
         """
         self._tag_loc = tag_loc
         self._i_tag = i_tag
@@ -125,21 +119,21 @@ class TimeGaps:
 
     @property
     def grouper_tags(self) -> dicts:
-        """Return a list of dicts with the grouper tags.
+        """Return a ``list`` of dictionaries with the grouper tags.
 
-        For example, if the group where made with ´name´ and ´surname´,
+        For example, if the group where made with ``'name'`` and ``'surname'``,
         this property will return something like:
-        `{'name': 'Jonh', 'surname': 'Smith', ...}`
+        ``{'name': 'Jonh', 'surname': 'Smith', ...}``.
         """
         return self._grouper_tags
     
     @property
     def grouped_intervals(self) -> List['TimeGaps']:
-        """Returns a list with a TimeGaps iterator for each group.
+        """Returns a ``list`` with a ``TimeGaps`` iterator for each group.
 
-        If there are no groups, a single TimeGaps object will be
+        If there are no groups, a single ``TimeGaps`` object will be
         returned, with the same intervals, properties and methods
-        as the initial instance of TimeGaps.
+        as the initial instance of ``TimeGaps``.
         """
         grouped = []
         for group in self._groups:
@@ -150,30 +144,30 @@ class TimeGaps:
         return grouped
 
     def total_duration(self, default: Any=None) -> Union[timedelta, Any]:
-        """Returns the total duration of the TimeIntervals iterator. 
+        """Returns the total duration of the ``TimeIntervals`` iterator. 
         
-        If any TimeInterval object is imperfect (`start` or `end`
-        atributte is empty `''`), the `default` passed to the method
-        will be returned.
+        If any ``TimeInterval`` object is imperfect (``start`` or 
+        ``end`` atributte is empty `''`), the `default` ``argument``
+        passed to the method will be returned.
 
         Parameters
         ----------
-        default: Any, optional
-            The value that will be retorned if any TimeInterval object
-            in the TimeGaps iterator hasn't a valid duration that can
-            be add to the total duration.
+        default : Any, optional
+            The value that will be returned if any ``TimeInterval``
+            object in the ``TimeGaps`` iterator hasn't a valid 
+            duration for the sum.
 
         Returns
         -------
         timedelta
-            When every TimeInterval object in the TimeGaps iterator has
-            a valid duration atributte, that's a `timedelta` type, the
-            method will return a `timedelta` object representing the 
-            sum of every duration atributte of every TimeInterval
-            object.
+            When every ``TimeInterval`` object in the ``TimeGaps``
+            iterator has a valid ``duration`` atributte (that's a
+            ``timedelta`` type) the method will return a ``timedelta``
+            object representing the sum of every ``duration`` atributte
+            in the ``TimeInterval`` objects.
         Any
             If the method can't reach the sum, it returns the value of
-            the `default` parameter.
+            the ``default`` parameter.
         """
         total = timedelta()
         for interval in self._intervals:
@@ -183,10 +177,10 @@ class TimeGaps:
         return total
     
     def _to_list_of_dicts(self, iterable: Iterable) -> dicts:
-        """Cast the iterable of iterable to a iterable of dicts.
+        """Cast the iterable of iterables to a iterable of dicts.
         
         If the iterable inside the main iterable is not supported, it
-        will raise an ValueError
+        will raise an ``ValueError``
         """
         iterable = list(iterable)
         if len(iterable) <= 0:
