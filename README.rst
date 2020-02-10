@@ -14,8 +14,8 @@ Stilpy
         :alt: Documentation Status
 
 
-.. image:: https://pyup.io/repos/github/fesanmar/stilpy/shield.svg
-     :target: https://pyup.io/repos/github/fesanmar/stilpy/
+.. image:: https://pyup.io/repos/github/fesanmar/Stilpy/shield.svg
+     :target: https://pyup.io/repos/github/fesanmar/Stilpy/
      :alt: Updates
 
 
