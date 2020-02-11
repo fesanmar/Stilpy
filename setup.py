@@ -36,7 +36,7 @@ setup(
     license="MIT license",
     long_description=readme + '\n\n' + history,
     include_package_data=True,
-    keywords='stilpy',
+    keywords='stilpy sorts time records to create time intervals iterators',
     name='stilpy',
     packages=find_packages(include=['stilpy', 'stilpy.*']),
     setup_requires=setup_requirements,
