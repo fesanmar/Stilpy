@@ -121,7 +121,7 @@ class TimeGaps:
     def grouper_tags(self) -> dicts:
         """Return a ``list`` of dictionaries with the grouper tags.
 
-        For example, if the group where made with ``'name'`` and ``'surname'``,
+        For example, if the group were made with ``'name'`` and ``'surname'``,
         this property will return something like:
         ``{'name': 'Jonh', 'surname': 'Smith', ...}``.
         """
