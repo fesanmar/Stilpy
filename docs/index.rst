@@ -8,7 +8,6 @@ Welcome to Stilpy's documentation!
    readme
    installation
    usage
-   modules
    contributing
    authors
    history
