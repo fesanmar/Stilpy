@@ -47,3 +47,5 @@ This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypack
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
 .. _datetime: https://docs.python.org/3.8/library/datetime.html#datetime-objects
 .. _`sqlite3.Row objects`: https://docs.python.org/3/library/sqlite3.html#row-objects
+
+ [ ~ Dependencies scanned by PyUp.io ~ ]
