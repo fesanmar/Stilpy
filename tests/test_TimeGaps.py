@@ -248,6 +248,14 @@ class TestTimeGaps(unittest.TestCase):
             is_str = True if str in types else False
             el['duration'] = '' if is_str else el['end'] - el['start']
 
+    def get_duration(self, interval):
+        # Return the duration of the interval.
+        d = timedelta()
+        interval_ls = list(interval)
+        for t in interval_ls:
+            if t.is_perfect:
+                d += t.duration
+        return d
     @staticmethod
     def gen (list_dicts):
         # Creates a generator of objects
@@ -470,13 +478,6 @@ class TestTimeGaps(unittest.TestCase):
     def test_total_duration(self):
         # Test the total duration function.
 
-        def get_duration(interval):
-            # Return the duration of the interval.
-            d = timedelta()
-            interval_ls = list(interval)
-            for t in interval_ls:
-                d += t.duration
-            return d
         # Creates the imperfect TimeGaps iterator
         main_info = ('t_dt', 'start', 'end', 'dt')
         group_by = ('name', 'surname')
@@ -498,14 +499,47 @@ class TestTimeGaps(unittest.TestCase):
         # Test total_duration method for imperfect intervals collection
         self.assertEqual(ti.total_duration('unknown'), 'unknown')
         # Test total_duration method for perfect intervals colletion
-        d = get_duration(ti_p)
+        d = self.get_duration(ti_p)
         self.assertEqual(ti_p.total_duration('unknown'), d)
 
         # tota_duration in the perfect grouped_intervals
         ti_p_groups = ti_p.grouped_intervals
         for t in ti_p_groups:
-            d = get_duration(t)
+            d = self.get_duration(t)
             self.assertEqual(t.total_duration('unknown'), d)
+
+    def test_total_duration_anyway(self):
+        # Test the total duration for perfect and/or imperfect intervals.
+
+        # Creates the imperfect TimeGaps iterator
+        main_info = ('t_dt', 'start', 'end', 'dt')
+        group_by = ('name', 'surname')
+        add_attr = ('name', 'surname')
+        ti = TimeGaps(
+            self.keys_dicts,
+            *main_info,
+            *add_attr,
+            group_by=group_by
+        )
+        # Creates the perfect TimeGaps iterator
+        ti_p = TimeGaps(
+            self.key_dicts_perfect,
+            *main_info,
+            *add_attr,
+            group_by=group_by
+        )
+        # Test total_duration method for imperfect intervals collection
+        d_imperfect = self.get_duration(ti)
+        self.assertEqual(ti.total_duration_anyway(), d_imperfect)
+        # Test total_duration method for perfect intervals colletion
+        d = self.get_duration(ti_p)
+        self.assertEqual(ti_p.total_duration_anyway(), d)
+
+        # tota_duration in the perfect grouped_intervals
+        ti_p_groups = ti_p.grouped_intervals
+        for t in ti_p_groups:
+            d = self.get_duration(t)
+            self.assertEqual(t.total_duration_anyway(), d)
         
 
 if __name__ == '__main__':

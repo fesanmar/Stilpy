@@ -175,6 +175,31 @@ class TimeGaps:
                 return default
             total += interval.duration
         return total
+
+    def total_duration_anyway(self) -> timedelta:
+        """Returns the total duration of the ``TimeIntervals`` iterator. 
+        
+        If any ``TimeInterval`` object is imperfect (``start`` or 
+        ``end`` atributte is empty `''`) the duration of the others
+        intervals will be returned.
+
+        Returns
+        -------
+        timedelta
+            When every ``TimeInterval`` object in the ``TimeGaps``
+            iterator has a valid ``duration`` atributte (that's a
+            ``timedelta`` type) the method will return a ``timedelta``
+            object representing the sum of every ``duration`` atributte
+            in the ``TimeInterval`` objects. If any timeinterval hasn't
+            a valid duration, that interval will be ignored, but the 
+            duration will be returned anyway, with the sum of the
+            intervals that do have a duration.
+        """
+        total = timedelta()
+        for interval in self._intervals:
+            if interval.is_perfect:
+                total += interval.duration
+        return total
     
     def _to_list_of_dicts(self, iterable: Iterable) -> dicts:
         """Cast the iterable of iterables to a iterable of dicts.
