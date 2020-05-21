@@ -345,3 +345,78 @@ employee with the same methods and properties as their ``TimeGaps`` object's
 father. And that's why we could call the 
 `total_duration <API.html#stilpy.timegaps.TimeGaps.total_duration>`__ method 
 for each ``group`` in ``grouped_ti`` collection.
+
+Total duration anyway
+---------------------
+
+But what happens if you want to display the the duration of a group, even if it's
+not perfect? Maybe you just want to dispaly it differently. Well, in those 
+cases you can use the 
+`total_duration_anyway <API.html#stilpy.timegaps.TimeGaps.total_duration_anyway>`__ 
+method.
+
+Let's rework the previous example adding this new functionality.
+
+>>> grouped_ti = ti_g.grouped_intervals
+>>> # Example with total_duration_anyway() method
+... for group in grouped_ti:
+...     print('Group number:', grouped_ti.index(group) + 1)
+...     # If there is a perfect duration it will be printed
+...     if (tot_duration := group.total_duration(False)) != False:
+...             print('Total duration:', tot_duration)
+...     # Otherwise, the imperfect duration will be displayed
+...     else:
+...             print('Not perfect duration ', group.total_duration_anyway())
+...     for i, tg in enumerate(group):
+...             s = tg.start if tg.start!='' else 'unknown'
+...             e = tg.end if tg.end!='' else 'unknown'
+...             d = tg.duration if tg.duration!='' else 'unknown'
+...             emp = f'{tg.name} {tg.surname}'
+...             print(f'Interval {i + 1} ->')
+...             print(f'\t\tEmployee: {emp}')
+...             print(f'\t\tStart: {s}')
+...             print(f'\t\tEnd: {e}')
+...             print(f'\t\tDuration: {d}')
+...
+Group number: 1
+Total duration: 2:30:38
+Interval 1 ->
+                Employee: Cecilia Park
+                Start: 2019-12-19 10:00:02
+                End: 2019-12-19 11:00:05
+                Duration: 1:00:03
+Interval 2 ->
+                Employee: Cecilia Park
+                Start: 2019-12-19 15:30:00
+                End: 2019-12-19 17:00:35
+                Duration: 1:30:35
+Group number: 2
+Not perfect duration  3:30:20
+Interval 1 ->
+                Employee: Eve Palmer
+                Start: 2019-12-19 10:00:00
+                End: 2019-12-19 13:30:20
+                Duration: 3:30:20
+Interval 2 ->
+                Employee: Eve Palmer
+                Start: 2019-12-19 14:30:00
+                End: unknown
+                Duration: unknown
+Group number: 3
+Not perfect duration  3:45:10
+Interval 1 ->
+                Employee: Moses Farrel
+                Start: 2019-12-19 09:00:00
+                End: unknown
+                Duration: unknown
+Interval 2 ->
+                Employee: Moses Farrel
+                Start: 2019-12-19 10:00:05
+                End: 2019-12-19 13:45:15
+                Duration: 3:45:10
+
+As you can see above, groups 1 and 3 have a perfect duration, and this is displayed 
+with the label 'Duration:'. On the other hand, group number 2 has an interval 
+without a valid duration (``unknown``), so Stilpy takes the remaining valid 
+durations, and returns a partial duration, used by our program to display the 
+result, labeled as 'Duration not perfect'.
