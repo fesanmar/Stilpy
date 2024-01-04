@@ -271,6 +271,18 @@ Interval 6 ->
                 End: 2019-12-19 17:00:35
                 Duration: 1:30:35
 
+If we have two records that will be conform an interval add an extra
+argument this will be the expected behaviour:
+
+* if the key is present in both records with the same value, that value
+  will be used to populate the new attribute
+* if the key is present in both records with different values, the 
+  attribute will be populated with a tuple whose first element is the
+  value the start record's value for that key, and the second will be 
+  the end record's value for that key
+* if the key is present just in one of the records, its value will be 
+  used to populate the attribute
+
 But what happens if we want different iterators, one per element of the group?
 Let’s say that we want a iterator for every employee. You can easily have it. In 
 fact you will get a list of ``TimeGaps`` objects, one for each employee. You
