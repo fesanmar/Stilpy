@@ -80,7 +80,7 @@ class TestTimeGaps(unittest.TestCase):
             'name': person1.split()[0],
             'surname': person1.split()[1],
             't_dt':'start',
-            'dt': '2019-12-19 10:00:00',
+            'dt': '2019-12-19 10:00:00'
         },
         {
             'name': person3.split()[0],
@@ -281,8 +281,6 @@ class TestTimeGaps(unittest.TestCase):
     def instace_check(self, timegaps_int, test_list, attrs=None):
 
         timegaps_int = list(timegaps_int)
-        # for el in timegaps_int:
-        #     print(el)
         self.assertNotEqual(len(timegaps_int), 0)
         self.assertEqual(len(timegaps_int), len(test_list))
         for i, el in enumerate(timegaps_int):
@@ -475,6 +473,55 @@ class TestTimeGaps(unittest.TestCase):
             )
             self.instace_check(t_copy, group_test, add_attr)
     
+    def test_args_set_from_both_records(self):
+        """el1 args and el2 args will work as union"""
+         # Creates list of dicts TimeGaps instance
+        name_key = 'name'
+        name_value = 'Eve'
+        start_only_attr_key = 'start_attr_only'
+        start_only_attr_val = 1
+        end_only_attr_key = 'end_attr_only'
+        end_only_attr_val = 2
+        check_type_key = 'check_type'
+        check_type_start_val = 'auto'
+        check_type_end_val = 'manual'
+        
+        regs = [
+        {
+            name_key: name_value,
+            't_dt':'start',
+            'dt': '2019-12-19 10:00:00',
+            start_only_attr_key: start_only_attr_val,
+            check_type_key: check_type_start_val
+        },
+        {
+            name_key: name_value,
+            't_dt':'end',
+            'dt': '2019-12-19 13:30:20',
+            end_only_attr_key: end_only_attr_val,
+            check_type_key: check_type_end_val
+        },
+    ]
+        main_info = ('t_dt', 'start', 'end', 'dt')
+        group_by = ('name',)
+        add_attr = ('name', start_only_attr_key, end_only_attr_key, check_type_key)
+        intervals = TimeGaps(
+            regs,
+            *main_info,
+            *add_attr,
+            group_by=group_by
+        )
+        self.assertEquals(len(intervals), 1)
+        interval = next(intervals)
+        # Assert common keys with same value remain as the value
+        self.assertEquals(getattr(interval, name_key), name_value)
+        # Assert unique keys are created
+        self.assertEquals(getattr(interval, start_only_attr_key), start_only_attr_val)
+        self.assertEquals(getattr(interval, end_only_attr_key), end_only_attr_val)
+        # Assert common keys with different values are create as 2-tupples
+        self.assertEquals(getattr(interval, check_type_key), (check_type_start_val, check_type_end_val))
+
+
     def test_total_duration(self):
         # Test the total duration function.
 

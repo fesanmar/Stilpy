@@ -21,7 +21,7 @@ setup(
     author_email='fesanmar@gmail.com',
     python_requires='>=3.5',
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
@@ -30,6 +30,8 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.12',
     ],
     description="Stilpy creates time intervals from records and manage them for you.",
     install_requires=requirements,
@@ -43,6 +45,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/fesanmar/stilpy',
-    version='0.2.0',
+    version='1.0.0',
     zip_safe=False,
 )

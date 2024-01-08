@@ -1,5 +1,5 @@
 
-from typing import Union, Any, Iterable, Iterator, List, Tuple, Optional
+from typing import Dict, Union, Any, Iterable, Iterator, List, Tuple, Optional
 from operator import itemgetter
 from itertools import groupby
 from datetime import timedelta
@@ -84,6 +84,10 @@ class TimeGaps:
             or the attribute, depending on the ``iterable`` that is 
             passed as first argument. Cannot be a ``int``, or a ``TypeError``
             will be raised.
+            
+            If both records for an interval contains a key with different
+            values, the attribute will be populated with a tuple like 
+            ``(<start_record_value>, <end_record_value>)``
         group_by : Any, optional
             The tags that you want to use for making the correct pairs
             between the diferent records of your ``iterable``. If it is 
@@ -283,21 +287,26 @@ class TimeGaps:
             # Creates a perfect pair interval if finds a proper initial
             # and final point. Else, an incomplete interval is created,
             # depending on wich limit is missiing, start or end.
-            kwargs = {k: v for k, v in el.items() if k in self._args}
+            el_kwargs_in_args = self._pairs_in_args(el)
             if self._are_pair(el, el1):
+                el1_kwargs_in_args = self._pairs_in_args(el1)
+                new_kwargs = TimeGaps._join_args_in_dict(el_kwargs_in_args, el1_kwargs_in_args)
                 interval = TimeInterval(
                     start=el[self._dt_loc],
                     end=el1[self._dt_loc],
-                    **kwargs
+                    **new_kwargs
                 )
                 skip_loop = True
             elif self._is_start(el):
-                interval = TimeInterval(start=el[self._dt_loc], **kwargs)
+                interval = TimeInterval(start=el[self._dt_loc], **el_kwargs_in_args)
                 skip_loop = False
             elif self._is_end(el):
-                interval = TimeInterval(end=el[self._dt_loc], **kwargs)
+                interval = TimeInterval(end=el[self._dt_loc], **el_kwargs_in_args)
                 skip_loop = False
             yield interval
+
+    def _pairs_in_args(self, el: Dict[str, Any]):
+        return {k: v for k, v in el.items() if k in self._args}
 
     def _are_pair(self, el1: dict, el2: Union[dict, None]) -> bool:
         """Return True if the first element is start and the second end"""
@@ -307,6 +316,19 @@ class TimeGaps:
             return True
         else:
             return False
+    
+    @staticmethod
+    def _join_args_in_dict(start_el: Dict[str, Any], end_el: Dict[str, Any]) -> Dict[str, Any]:
+        new_args: {str, Any} = {}
+        for key, val in start_el.items():
+            if key in end_el and end_el[key] != val:
+                new_args[key] = (val, end_el[key])
+            else:
+                new_args[key] = val
+        # For end_el we will process just unique elements, since the others are already in new_args
+        not_processed_el2_pairs = {k: v for k, v in end_el.items() if k not in new_args}
+        new_args.update(not_processed_el2_pairs)
+        return new_args
 
     def _is_start(self, element: dict) -> bool:
         """True if is a start elemente, else False"""
