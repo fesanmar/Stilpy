@@ -21,7 +21,7 @@ setup(
     author_email='fesanmar@gmail.com',
     python_requires='>=3.5',
     classifiers=[
-        'Development Status :: 1 - Alpha',
+        'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
@@ -30,6 +30,8 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.12',
     ],
     description="Stilpy creates time intervals from records and manage them for you.",
     install_requires=requirements,
