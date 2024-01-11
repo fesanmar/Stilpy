@@ -6,9 +6,6 @@ Stilpy
 .. image:: https://img.shields.io/pypi/v/stilpy.svg
         :target: https://pypi.python.org/pypi/stilpy
 
-.. image:: https://img.shields.io/travis/fesanmar/stilpy.svg
-        :target: https://travis-ci.org/fesanmar/stilpy
-
 .. image:: https://readthedocs.org/projects/stilpy/badge/?version=latest
         :target: https://stilpy.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
@@ -16,12 +13,6 @@ Stilpy
 .. image:: https://pyup.io/repos/github/fesanmar/Stilpy/shield.svg
      :target: https://pyup.io/repos/github/fesanmar/Stilpy/
      :alt: Updates
-     
-.. image:: https://img.shields.io/lgtm/alerts/g/fesanmar/Stilpy.svg?logo=lgtm&logoWidth=18
-   :target: https://lgtm.com/projects/g/fesanmar/Stilpy/alerts/
-   
-.. image:: https://img.shields.io/lgtm/grade/python/g/fesanmar/Stilpy.svg?logo=lgtm&logoWidth=18
-   :target: https://lgtm.com/projects/g/fesanmar/Stilpy/context:python
 
 
 

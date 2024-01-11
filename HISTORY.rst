@@ -2,6 +2,11 @@
 History
 =======
 
+1.0.1 (2024-01-11)
+------------------
+
+* Remove typing from a variable since it crashes on Python 3.5
+
 1.0.0 (2023-01-04)
 ------------------
 

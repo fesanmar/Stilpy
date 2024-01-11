@@ -319,7 +319,7 @@ class TimeGaps:
     
     @staticmethod
     def _join_args_in_dict(start_el: Dict[str, Any], end_el: Dict[str, Any]) -> Dict[str, Any]:
-        new_args: {str, Any} = {}
+        new_args = {}
         for key, val in start_el.items():
             if key in end_el and end_el[key] != val:
                 new_args[key] = (val, end_el[key])
